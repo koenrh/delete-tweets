@@ -1,0 +1,1 @@
+python-twitter==3.4.1
