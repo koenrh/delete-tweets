@@ -31,7 +31,7 @@ def delete(api, date, r):
 
                 api.DestroyStatus(tweet_id)
                 count += 1
-                time.sleep(1)
+                time.sleep(0.5)
 
             except twitter.TwitterError, err:
                 print "Exception: %s\n" % err.message
