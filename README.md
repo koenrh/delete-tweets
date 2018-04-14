@@ -5,7 +5,7 @@ beyond the [3,200 tweet limit](https://web.archive.org/web/20131019125213/https:
 
 ## Prerequisites
 
-### Configure access
+### Configure API access
 
 1. Open Twitter's [Application Management](https://apps.twitter.com/), and create a new Twitter app.
 2. Set the permissions of your app to *Read and Write*.
@@ -44,5 +44,5 @@ python deletetweets.py -d 2014-01-01
 Or delete all retweets:
 
 ```bash
-python deletetweets.py -r "retweet"
+python deletetweets.py -r retweet
 ```
