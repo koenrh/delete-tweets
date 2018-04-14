@@ -4,17 +4,12 @@ import argparse
 import csv
 import sys
 import time
+import os
 import twitter
 from dateutil.parser import parse
 
 __author__ = "Koen Rouwhorst"
 __version__ = "0.1"
-
-API_KEY = ""
-API_SECRET = ""
-
-ACCESS_TOKEN = ""
-ACCESS_TOKEN_SECRET = ""
 
 def delete(api, date, r):
     with open("tweets.csv") as file:
@@ -43,9 +38,9 @@ def delete(api, date, r):
 
     print "Number of deleted tweets: %s\n" % count
 
-def error(msg, ec=1):
+def error(msg, exit_code=1):
     sys.stderr.write("Error: %s\n" % msg)
-    exit(ec)
+    exit(exit_code)
 
 def main():
     parser = argparse.ArgumentParser(description="Delete old tweets.")
@@ -56,16 +51,16 @@ def main():
 
     args = parser.parse_args()
 
-    if API_KEY == "" or API_SECRET == "":
-        error("No API key and/or secret set.")
+    if not ("TWITTER_CONSUMER_KEY" in os.environ and
+            "TWITTER_CONSUMER_SECRET" in os.environ and
+            "TWITTER_ACCESS_TOKEN" in os.environ and
+            "TWITTER_ACCESS_TOKEN_SECRET" in os.environ):
+        error("No consumer key/secret and/or access token/secret set.")
 
-    if ACCESS_TOKEN == "" or ACCESS_TOKEN_SECRET == "":
-        error("No access token and/or secret set.")
-
-    api = twitter.Api(consumer_key=API_KEY,
-                      consumer_secret=API_SECRET,
-                      access_token_key=ACCESS_TOKEN,
-                      access_token_secret=ACCESS_TOKEN_SECRET)
+    api = twitter.Api(consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
+                      consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
+                      access_token_key=os.environ['TWITTER_ACCESS_TOKEN'],
+                      access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
 
     delete(api, args.date, args.restrict)
 
