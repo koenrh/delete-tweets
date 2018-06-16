@@ -1,2 +1,2 @@
 python-twitter==3.4.2
-python-dateutil==2.7.2
+python-dateutil==2.7.3
