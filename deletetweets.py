@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-import csv
+import json
 import sys
 import time
 import os
@@ -9,34 +9,38 @@ import twitter
 from dateutil.parser import parse
 
 __author__ = "Koen Rouwhorst"
-__version__ = "0.1"
+__version__ = "0.2"
 
 def delete(api, date, r):
-    with open("tweets.csv") as file:
+    with open('tweet.js') as file:
+        js, jsonData = file.read().split(' = ')
+        data = json.loads(jsonData)
         count = 0
 
-        for row in csv.DictReader(file):
-            tweet_id = int(row["tweet_id"])
-            tweet_date = parse(row["timestamp"], ignoretz=True).date()
+        for line in data:
+            tweet_id = int(line["id_str"])
+            tweet_date = parse(line["created_at"], ignoretz=True).date()
 
             if date != "" and tweet_date >= parse(date).date():
                 continue
 
-            if (r == "retweet" and row["retweeted_status_id"] == "" or
-                    r == "reply" and row["in_reply_to_status_id"] == ""):
+            if (r == "retweet" and line["retweeted_status_id_str"] == "" or
+                    r == "reply" and line["in_reply_to_status_id_str"] == ""):
                 continue
 
             try:
-                print "Deleting tweet #{0} ({1})".format(tweet_id, tweet_date)
+                print("Deleting tweet ", tweet_id, tweet_date)
 
                 api.DestroyStatus(tweet_id)
                 count += 1
                 time.sleep(0.5)
 
-            except twitter.TwitterError, err:
-                print "Exception: %s\n" % err.message
+            except twitter.error.TwitterError as err:
+                print(err.message)
+                for i in err.message:
+                    print(i)
 
-    print "Number of deleted tweets: %s\n" % count
+    print("Number of deleted tweets: %s\n" % count)
 
 def error(msg, exit_code=1):
     sys.stderr.write("Error: %s\n" % msg)

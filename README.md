@@ -23,7 +23,7 @@ TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
 1. Open your [account page](https://twitter.com/settings/account).
 2. Click 'Your Twitter archive', and a link to your archive will arrive per email.
 3. Follow the link in the email to download the archive.
-4. Unpack the archive, and move `tweets.csv` to the same directory as this script.
+4. Unpack the archive, and move `tweets.js` to the same directory as this script.
 
 ## Installation
 
