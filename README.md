@@ -49,11 +49,30 @@ export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
 
 ## Installation
 
+### Local
+
 Install the required dependencies.
 
 ```
 pip install -r requirements.txt
 ```
+
+### Docker
+
+If you have Docker [installed](https://docs.docker.com/install/), you could run
+the script using the following command.
+
+```bash
+docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
+  --env TWITTER_CONSUMER_SECRET="[your consumer secret]" \
+  --env TWITTER_ACCESS_TOKEN="[your access token]" \
+  --env TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
+  --rm -it koenrh/delete-tweets \
+  -v $E:PWD":/" -d 2014-01-01 /tweets.csv
+```
+
+You could make this command more easily accessible by putting it an executable,
+and make sure that it is available in your `$PATH`.
 
 ## Usage
 
