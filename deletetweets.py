@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 
 import argparse
-import csv
+from backports import csv
 import sys
 import time
 import os
 import twitter
+import io
 from dateutil.parser import parse
 
 __author__ = "Koen Rouwhorst"
-__version__ = "0.1"
+__version__ = "0.1.1"
 
 def delete(api, date, r):
-    with open("tweets.csv") as file:
+    with io.open("tweets.csv", encoding='utf-8') as file:
         count = 0
 
         for row in csv.DictReader(file):
@@ -27,16 +28,16 @@ def delete(api, date, r):
                 continue
 
             try:
-                print "Deleting tweet #{0} ({1})".format(tweet_id, tweet_date)
+                print("Deleting tweet #{0} ({1})".format(tweet_id, tweet_date))
 
                 api.DestroyStatus(tweet_id)
                 count += 1
                 time.sleep(0.5)
 
-            except twitter.TwitterError, err:
-                print "Exception: %s\n" % err.message
+            except twitter.TwitterError as err:
+                print("Exception: %s\n" % err.message)
 
-    print "Number of deleted tweets: %s\n" % count
+    print("Number of deleted tweets: %s\n" % count)
 
 def error(msg, exit_code=1):
     sys.stderr.write("Error: %s\n" % msg)
@@ -52,9 +53,9 @@ def main():
     args = parser.parse_args()
 
     if not ("TWITTER_CONSUMER_KEY" in os.environ and
-            "TWITTER_CONSUMER_SECRET" in os.environ and
-            "TWITTER_ACCESS_TOKEN" in os.environ and
-            "TWITTER_ACCESS_TOKEN_SECRET" in os.environ):
+                "TWITTER_CONSUMER_SECRET" in os.environ and
+                "TWITTER_ACCESS_TOKEN" in os.environ and
+                "TWITTER_ACCESS_TOKEN_SECRET" in os.environ):
         error("No consumer key/secret and/or access token/secret set.")
 
     api = twitter.Api(consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
@@ -63,7 +64,6 @@ def main():
                       access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
 
     delete(api, args.date, args.restrict)
-
 
 if __name__ == "__main__":
     main()
