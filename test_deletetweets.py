@@ -10,7 +10,7 @@ class FakeTwitterApi(object):
 
     def DestroyStatus(self, tweet_id):
         self.tweets.append(tweet_id)
-        print "Destroyed tweet %s" % tweet_id
+        print("Destroyed tweet %s" % tweet_id)
 
 
 class FakeReader(object):
