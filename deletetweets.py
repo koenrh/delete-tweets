@@ -36,7 +36,7 @@ class TweetReader(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         row = next(self.reader)
 
         if row.get("timestamp", "") != "":
@@ -53,6 +53,9 @@ class TweetReader(object):
             row = next(self.reader)
 
         return row
+
+    def next(self):
+        return self.__next__()
 
 
 def delete(date, r):

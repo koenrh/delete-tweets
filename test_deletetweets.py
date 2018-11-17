@@ -21,13 +21,16 @@ class FakeReader(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.index >= len(self.test_dict):
             raise StopIteration
 
         value = self.test_dict[self.index]
         self.index = self.index + 1
         return value
+
+    def next(self):
+        return self.__next__()
 
 
 class TestDeleteTweets(unittest.TestCase):
