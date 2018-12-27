@@ -21,6 +21,7 @@ class TweetDestroyer(object):
     def destroy(self, tweet_id):
         try:
             print("delete tweet %s" % tweet_id)
+            # self.twitter_api.DestroyStatus(tweet_id)
             time.sleep(0.5)
         except twitter.TwitterError as err:
             print("Exception: %s\n" % err.message)
@@ -33,29 +34,22 @@ class TweetReader(object):
             self.date = parse(date, ignoretz=True).date()
         self.restrict = restrict
 
-    def __iter__(self):
-        return self
+    def read(self):
+        for row in self.reader:
+            if row.get("timestamp", "") != "":
+                tweet_date = parse(row["timestamp"], ignoretz=True).date()
+                if self.date != "" and \
+                        self.date is not None and \
+                        tweet_date >= self.date:
+                    continue
 
-    def __next__(self):
-        row = next(self.reader)
+            if (self.restrict == "retweet" and
+                    row.get("retweeted_status_id") == "") or \
+                    (self.restrict == "reply" and
+                     row.get("in_reply_to_status_id") == ""):
+                continue
 
-        if row.get("timestamp", "") != "":
-            tweet_date = parse(row["timestamp"], ignoretz=True).date()
-            if self.date != "" and \
-                    self.date is not None and \
-                    tweet_date >= self.date:
-                row = next(self.reader)
-
-        if self.restrict == "retweet" and \
-                row.get("retweeted_status_id", "") == "" or \
-                self.restrict == "reply" and \
-                row.get("retweeted_status_id", "") == "":
-            row = next(self.reader)
-
-        return row
-
-    def next(self):
-        return self.__next__()
+            yield row
 
 
 def delete(date, r):
@@ -68,8 +62,9 @@ def delete(date, r):
                           access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
         destroyer = TweetDestroyer(api)
 
-        for row in TweetReader(csv.DictReader(tweets_file), date, r):
+        for row in TweetReader(csv.DictReader(tweets_file), date, r).read():
             destroyer.destroy(row["tweet_id"])
+            count += 1
 
         print("Number of deleted tweets: %s\n" % count)
 
