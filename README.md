@@ -2,10 +2,15 @@
 
 [![Build Status](https://travis-ci.com/koenrh/delete-tweets.svg?branch=master)](https://travis-ci.com/koenrh/delete-tweets)
 
-Delete tweets (or just replies or retweets) from your timeline, including tweets
-beyond the [3,200 tweet limit](https://web.archive.org/web/20131019125213/https://dev.twitter.com/discussions/276).
+This is a simple script that helps you delete tweets (or just replies or retweets)
+from your timeline. There are quite a few third-party services that allow you
+to delete tweets, but these very likely will not allow you to delete tweets beyond
+the infamous [3,200 tweet limit](https://web.archive.org/web/20131019125213/https://dev.twitter.com/discussions/276).
 
 ## Prerequisites
+
+Unfortunately, as of late 2018, you are required to have a Twitter Developer account
+in order to create a Twitter app.
 
 ### Apply for a Twitter Developer account
 
@@ -34,6 +39,11 @@ beyond the [3,200 tweet limit](https://web.archive.org/web/20131019125213/https:
 1. Now you need to make these keys and tokens available to your shell environment.
   Assuming you are using [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)):
 
+:warning: Before you continue, you should be aware that most shells record user
+input (and thus secrets) into a history file. In Bash you could prevent this by
+prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
+to `ignorespace` or `ignoreboth`).
+
 ```bash
 export TWITTER_CONSUMER_KEY="[your consumer key]"
 export TWITTER_CONSUMER_SECRET="[your consumer secret]"
@@ -49,23 +59,23 @@ export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
 1. Follow the link in the email to download your Tweet archive.
 1. Unpack the archive, and move `tweets.csv` to the same directory as this script.
 
-## Usage
+## Getting started
 
 ### Local
 
 First, install the required dependencies.
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
-Then, for example, delete any tweet from before *January 1, 2014*:
+Then, for example, delete any tweet from _before_ January 1, 2018:
 
 ```bash
-python deletetweets.py -d 2014-01-01 tweets.csv
+python deletetweets.py -d 2018-01-01 tweets.csv
 ```
 
-Or delete all retweets:
+Or only delete all retweets:
 
 ```bash
 python deletetweets.py -r retweet tweets.csv
@@ -73,8 +83,21 @@ python deletetweets.py -r retweet tweets.csv
 
 ### Docker
 
-Alternatively, if you have Docker [installed](https://docs.docker.com/install/),
-you could run the script using the following command.
+Alternatively, you could run this script in a [Docker](https://docs.docker.com/install/)
+container.
+
+First, you need to build the Docker image.
+
+```bash
+docker build -t koenrh/delete-tweets .
+```
+
+Then, run the script using the following command.
+
+:warning: Before you continue, you should be aware that most shells record user
+input (and thus secrets) into a history file. In Bash you could prevent this by
+prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
+to `ignorespace` or `ignoreboth`).
 
 ```bash
 docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
@@ -82,7 +105,7 @@ docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
   --env TWITTER_ACCESS_TOKEN="[your access token]" \
   --env TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
   --rm -it koenrh/delete-tweets \
-  -v $E:PWD":/app" -d 2014-01-01 /app/tweets.csv
+  -v $E:PWD":/app" -d 2018-01-01 /app/tweets.csv
 ```
 
 You could make this command more easily accessible by putting it an executable,
