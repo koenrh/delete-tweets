@@ -2,10 +2,15 @@
 
 [![Build Status](https://travis-ci.com/koenrh/delete-tweets.svg?branch=master)](https://travis-ci.com/koenrh/delete-tweets)
 
-Delete tweets (or just replies or retweets) from your timeline, including tweets
-beyond the [3,200 tweet limit](https://web.archive.org/web/20131019125213/https://dev.twitter.com/discussions/276).
+This is a simple script that helps you delete tweets (or just replies or retweets)
+from your timeline. There are quite a few third-party services that allow you
+to delete tweets, but these very likely will not allow you to delete tweets beyond
+the infamous [3,200 tweet limit](https://web.archive.org/web/20131019125213/https://dev.twitter.com/discussions/276).
 
 ## Prerequisites
+
+Unfortunately, as of late 2018, you are required to have a Twitter Developer account
+in order to create a Twitter app.
 
 ### Apply for a Twitter Developer account
 
@@ -64,13 +69,13 @@ First, install the required dependencies.
 pip install -r requirements.txt
 ```
 
-Then, for example, delete any tweet from before *January 1, 2014*:
+Then, for example, delete any tweet from _before_ January 1, 2018:
 
 ```bash
-python deletetweets.py -d 2014-01-01 tweets.csv
+python deletetweets.py -d 2018-01-01 tweets.csv
 ```
 
-Or delete all retweets:
+Or only delete all retweets:
 
 ```bash
 python deletetweets.py -r retweet tweets.csv
@@ -100,7 +105,7 @@ docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
   --env TWITTER_ACCESS_TOKEN="[your access token]" \
   --env TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
   --rm -it koenrh/delete-tweets \
-  -v $E:PWD":/app" -d 2014-01-01 /app/tweets.csv
+  -v $E:PWD":/app" -d 2018-01-01 /app/tweets.csv
 ```
 
 You could make this command more easily accessible by putting it an executable,
