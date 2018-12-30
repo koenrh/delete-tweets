@@ -47,24 +47,41 @@ export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
 1. Follow the link in the email to download your Tweet archive.
 1. Unpack the archive, and move `tweets.csv` to the same directory as this script.
 
-## Installation
+## Usage
 
-Install the required dependencies.
+### Local
+
+First, install the required dependencies.
 
 ```
 pip install -r requirements.txt
 ```
 
-## Usage
-
-For example, delete any tweet from before *January 1, 2014*:
+Then, for example, delete any tweet from before *January 1, 2014*:
 
 ```bash
-python deletetweets.py -d 2014-01-01
+python deletetweets.py -d 2014-01-01 tweets.csv
 ```
 
 Or delete all retweets:
 
 ```bash
-python deletetweets.py -r retweet
+python deletetweets.py -r retweet tweets.csv
 ```
+
+### Docker
+
+Alternatively, if you have Docker [installed](https://docs.docker.com/install/),
+you could run the script using the following command.
+
+```bash
+docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
+  --env TWITTER_CONSUMER_SECRET="[your consumer secret]" \
+  --env TWITTER_ACCESS_TOKEN="[your access token]" \
+  --env TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
+  --rm -it koenrh/delete-tweets \
+  -v $E:PWD":/app" -d 2014-01-01 /app/tweets.csv
+```
+
+You could make this command more easily accessible by putting it an executable,
+and make sure that it is available in your `$PATH`.

@@ -52,8 +52,8 @@ class TweetReader(object):
             yield row
 
 
-def delete(date, r):
-    with io.open("tweets.csv", encoding='utf-8') as tweets_file:
+def delete(csv_file, date, r):
+    with io.open(csv_file, encoding='utf-8') as tweets_file:
         count = 0
 
         api = twitter.Api(consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
@@ -75,6 +75,8 @@ def main():
                         help="Delete tweets until this date")
     parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"],
                         help="Restrict to either replies or retweets")
+    parser.add_argument("file", help="display a square of a given number",
+                        type=str)
 
     args = parser.parse_args()
 
@@ -85,7 +87,7 @@ def main():
         sys.stderr.write("Twitter API credentials not set.")
         exit(1)
 
-    delete(args.date, args.restrict)
+    delete(args.file, args.date, args.restrict)
 
 
 if __name__ == "__main__":
