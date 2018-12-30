@@ -74,7 +74,15 @@ python deletetweets.py -r retweet tweets.csv
 ### Docker
 
 Alternatively, if you have Docker [installed](https://docs.docker.com/install/),
-you could run the script using the following command.
+you could run this script in a container.
+
+First, you need to build the Docker image.
+
+```
+docker build -t koenrh/delete-tweets .
+```
+
+Then, run the script using the following command.
 
 ```bash
 docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
