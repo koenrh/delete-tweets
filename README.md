@@ -1,5 +1,7 @@
 # Delete tweets
 
+[![Build Status](https://travis-ci.com/koenrh/delete-tweets.svg?branch=master)](https://travis-ci.com/koenrh/delete-tweets)
+
 Delete tweets (or just replies or retweets) from your timeline, including tweets
 beyond the [3,200 tweet limit](https://web.archive.org/web/20131019125213/https://dev.twitter.com/discussions/276).
 
