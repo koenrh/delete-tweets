@@ -7,8 +7,12 @@ import sys
 import time
 
 import twitter
-from backports import csv
 from dateutil.parser import parse
+
+if sys.version_info.major < 3:
+    from backports import csv
+else:
+    import csv
 
 __author__ = "Koen Rouwhorst"
 __version__ = "0.1.1"
