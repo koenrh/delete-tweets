@@ -21,7 +21,7 @@ class TweetDestroyer(object):
     def destroy(self, tweet_id):
         try:
             print("delete tweet %s" % tweet_id)
-            # self.twitter_api.DestroyStatus(tweet_id)
+            self.twitter_api.DestroyStatus(tweet_id)
             time.sleep(0.5)
         except twitter.TwitterError as err:
             print("Exception: %s\n" % err.message)
