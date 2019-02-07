@@ -46,3 +46,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Sensitive files
+api-keys.json

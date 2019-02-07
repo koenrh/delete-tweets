@@ -2,7 +2,9 @@
 
 import argparse
 import io
+import json
 import os
+import os.path
 import sys
 import time
 
@@ -56,14 +58,14 @@ class TweetReader(object):
             yield row
 
 
-def delete(csv_file, date, r):
+def delete(csv_file, date, r, api_keys):
     with io.open(csv_file, encoding='utf-8') as tweets_file:
         count = 0
 
-        api = twitter.Api(consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
-                          consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
-                          access_token_key=os.environ['TWITTER_ACCESS_TOKEN'],
-                          access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
+        api = twitter.Api(consumer_key=api_keys["consumer_key"],
+                          consumer_secret=api_keys["consumer_secret"],
+                          access_token_key=api_keys["access_token"],
+                          access_token_secret=api_keys["access_token_secret"])
         destroyer = TweetDestroyer(api)
 
         for row in TweetReader(csv.DictReader(tweets_file), date, r).read():
@@ -79,19 +81,28 @@ def main():
                         help="Delete tweets until this date")
     parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"],
                         help="Restrict to either replies or retweets")
+    parser.add_argument("-k", dest="api_keys",
+                        help="API keys in a JSON file")
     parser.add_argument("file", help="display a square of a given number",
                         type=str)
 
     args = parser.parse_args()
 
-    if not ("TWITTER_CONSUMER_KEY" in os.environ and
-            "TWITTER_CONSUMER_SECRET" in os.environ and
-            "TWITTER_ACCESS_TOKEN" in os.environ and
-            "TWITTER_ACCESS_TOKEN_SECRET" in os.environ):
-        sys.stderr.write("Twitter API credentials not set.")
+    api_keys = {}
+    if args.api_keys and os.path.isfile(args.api_keys):
+        with open(args.api_keys, "rb") as f:
+            api_keys = json.load(f)
+    else:
+        api_keys["consumer_key"] = os.environ.get("TWITTER_CONSUMER_KEY")
+        api_keys["consumer_secret"] = os.environ.get("TWITTER_CONSUMER_SECRET")
+        api_keys["access_token"] = os.environ.get("TWITTER_ACCESS_TOKEN")
+        api_keys["access_token_secret"] = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
+    if not (api_keys["consumer_key"] and api_keys["consumer_secret"] and
+            api_keys["access_token"] and api_keys["access_token_secret"]):
+        sys.stderr.write("Twitter API credentials not set.\n")
         exit(1)
 
-    delete(args.file, args.date, args.restrict)
+    delete(args.file, args.date, args.restrict, api_keys)
 
 
 if __name__ == "__main__":
