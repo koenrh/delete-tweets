@@ -55,6 +55,7 @@ export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
 
 1. Open the [Your Twitter data page](https://twitter.com/settings/your_twitter_data).
 1. Scroll to the 'Download your Twitter data' section at the bottom of the page.
+1. Re-enter your password.
 1. Click 'Request data', and wait for the email to arrive.
 1. Follow the link in the email to download your Tweet data.
 1. Unpack the archive, and move `tweet.js` to the same directory as this script.
