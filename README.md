@@ -53,11 +53,11 @@ export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
 
 ### Get your tweet archive
 
-1. Open your [Twitter account page](https://twitter.com/settings/account).
-1. Scroll to the bottom of the page, click 'Request your archive' (not 'Your Twitter
-  data' in the left sidebar!), and wait for the email to arrive.
-1. Follow the link in the email to download your Tweet archive.
-1. Unpack the archive, and move `tweets.csv` to the same directory as this script.
+1. Open the [Your Twitter data page](https://twitter.com/settings/your_twitter_data).
+1. Scroll to the 'Download your Twitter data' section at the bottom of the page.
+1. Click 'Request data', and wait for the email to arrive.
+1. Follow the link in the email to download your Tweet data.
+1. Unpack the archive, and move `tweet.js` to the same directory as this script.
 
 ## Getting started
 
@@ -72,13 +72,13 @@ pip install -r requirements.txt
 Then, for example, delete any tweet from _before_ January 1, 2018:
 
 ```bash
-python deletetweets.py -d 2018-01-01 tweets.csv
+python deletetweets.py -d 2018-01-01 tweet.js
 ```
 
 Or only delete all retweets:
 
 ```bash
-python deletetweets.py -r retweet tweets.csv
+python deletetweets.py -r retweet tweet.js
 ```
 
 ### Docker
@@ -100,12 +100,11 @@ prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
 to `ignorespace` or `ignoreboth`).
 
 ```bash
-docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
-  --env TWITTER_CONSUMER_SECRET="[your consumer secret]" \
-  --env TWITTER_ACCESS_TOKEN="[your access token]" \
-  --env TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
-  --rm -it koenrh/delete-tweets \
-  -v $E:PWD":/app" -d 2018-01-01 /app/tweets.csv
+docker run --env TWITTER_CONSUMER_KEY="$TWITTER_CONSUMER_KEY=" \
+  --env TWITTER_CONSUMER_SECRET="$TWITTER_CONSUMER_SECRET=" \
+  --env TWITTER_ACCESS_TOKEN="$TWITTER_ACCESS_TOKEN=" \
+  --env TWITTER_ACCESS_TOKEN_SECRET="$TWITTER_ACCESS_TOKEN_SECRET=" \
+  --volume "$PWD:/app" --rm -it koenrh/delete-tweets -d 2018-01-01 /app/tweet.js
 ```
 
 You could make this command more easily accessible by putting it an executable,

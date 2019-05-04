@@ -35,39 +35,39 @@ class FakeReader(object):
 
 class TestDeleteTweets(unittest.TestCase):
     def test_tweet_reader_retweet(self):
-        tweets = [{"tweet_id": "42", "retweeted_status_id": "200"},
-                  {"tweet_id": "43", "retweeted_status_id": ""},
-                  {"tweet_id": "49", "retweeted_status_id": ""},
-                  {"tweet_id": "44", "retweeted_status_id": "300"}]
+        tweets = [{"id_str": "42", "full_text": "RT @github \\o/"},
+                  {"id_str": "43", "full_text": ""},
+                  {"id_str": "49", "full_text": ""},
+                  {"id_str": "44", "full_text": "RT @google OK, Google"}]
 
-        expected = [{"tweet_id": "42"}, {"tweet_id": "44"}]
+        expected = [{"id_str": "42"}, {"id_str": "44"}]
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
                                               restrict="retweet").read()):
-            self.assertEqual(expected[idx]['tweet_id'], val['tweet_id'])
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
 
     def test_tweet_reader_reply(self):
-        tweets = [{'tweet_id': '12', 'in_reply_to_status_id': ''},
-                  {'tweet_id': '14', 'in_reply_to_status_id': '200'},
-                  {'tweet_id': '16', 'in_reply_to_status_id': ''},
-                  {'tweet_id': '18', 'in_reply_to_status_id': '203'}]
+        tweets = [{"id_str": "12", "in_reply_to_user_id_str": ""},
+                  {"id_str": "14", "in_reply_to_user_id_str": "200"},
+                  {"id_str": "16", "in_reply_to_user_id_str": ""},
+                  {"id_str": "18", "in_reply_to_user_id_str": "203"}]
 
-        expected = [{"tweet_id": "14"}, {"tweet_id": "18"}]
+        expected = [{"id_str": "14"}, {"id_str": "18"}]
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
                                               restrict="reply").read()):
-            self.assertEqual(expected[idx]['tweet_id'], val['tweet_id'])
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
 
     def test_tweet_reader_date(self):
-        tweets = [{"tweet_id": "21", "timestamp": "2013-03-06 20:22:06 +0000"},
-                  {"tweet_id": "22", "timestamp": "2014-03-06 20:22:06 +0000"}]
+        tweets = [{"id_str": "21", "created_at": "Wed March 06 20:22:06 +0000 2013"},
+                  {"id_str": "22", "created_at": "Thu March 05 20:22:06 +0000 2014"}]
 
-        expected = [{"tweet_id": "21"}]
+        expected = [{"id_str": "21"}]
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
-                                              date='2014-02-01').read()):
-            self.assertEqual(expected[idx]['tweet_id'], val['tweet_id'])
+                                              date="2014-02-01").read()):
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
