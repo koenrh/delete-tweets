@@ -5,17 +5,13 @@ import io
 import os
 import sys
 import time
+import json
 
 import twitter
 from dateutil.parser import parse
 
-if sys.version_info.major < 3:
-    from backports import csv
-else:
-    import csv
-
 __author__ = "Koen Rouwhorst"
-__version__ = "0.1.1"
+__version__ = "1.0.0"
 
 
 class TweetDestroyer(object):
@@ -40,34 +36,35 @@ class TweetReader(object):
 
     def read(self):
         for row in self.reader:
-            if row.get("timestamp", "") != "":
-                tweet_date = parse(row["timestamp"], ignoretz=True).date()
+            if row.get("created_at", "") != "":
+                tweet_date = parse(row["created_at"], ignoretz=True).date()
                 if self.date != "" and \
                         self.date is not None and \
                         tweet_date >= self.date:
                     continue
 
             if (self.restrict == "retweet" and
-                    row.get("retweeted_status_id") == "") or \
+                    not row.get("full_text").startswith("RT @")) or \
                     (self.restrict == "reply" and
-                     row.get("in_reply_to_status_id") == ""):
+                     row.get("in_reply_to_user_id_str") == ""):
                 continue
 
             yield row
 
 
-def delete(csv_file, date, r):
-    with io.open(csv_file, encoding='utf-8') as tweets_file:
+def delete(tweetjs_path, date, r):
+    with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
         count = 0
 
-        api = twitter.Api(consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
-                          consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
-                          access_token_key=os.environ['TWITTER_ACCESS_TOKEN'],
-                          access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
+        api = twitter.Api(consumer_key=os.environ["TWITTER_CONSUMER_KEY"],
+                          consumer_secret=os.environ["TWITTER_CONSUMER_SECRET"],
+                          access_token_key=os.environ["TWITTER_ACCESS_TOKEN"],
+                          access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"])
         destroyer = TweetDestroyer(api)
 
-        for row in TweetReader(csv.DictReader(tweets_file), date, r).read():
-            destroyer.destroy(row["tweet_id"])
+        tweets = json.loads(tweetjs_file.read()[25:])
+        for row in TweetReader(tweets, date, r).read():
+            destroyer.destroy(row["id_str"])
             count += 1
 
         print("Number of deleted tweets: %s\n" % count)
