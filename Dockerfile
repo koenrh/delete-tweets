@@ -1,4 +1,4 @@
-FROM python:3.7.3-alpine@sha256:8ea1d32c356382e51d9983f7ba5fa7d29c1fb4c86855e2f51686660a22416476
+FROM python:3.7.4-alpine@sha256:fabd15bc1b5c6f4097cabae02122250f51d6fda4ab4729d1ba17f01028a7fc15
 COPY . /app
 RUN pip install -r /app/requirements.txt
 ENTRYPOINT ["python", "/app/deletetweets.py"]
