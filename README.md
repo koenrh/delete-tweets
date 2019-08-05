@@ -101,10 +101,10 @@ prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
 to `ignorespace` or `ignoreboth`).
 
 ```bash
-docker run --env TWITTER_CONSUMER_KEY="$TWITTER_CONSUMER_KEY=" \
-  --env TWITTER_CONSUMER_SECRET="$TWITTER_CONSUMER_SECRET=" \
-  --env TWITTER_ACCESS_TOKEN="$TWITTER_ACCESS_TOKEN=" \
-  --env TWITTER_ACCESS_TOKEN_SECRET="$TWITTER_ACCESS_TOKEN_SECRET=" \
+docker run --env TWITTER_CONSUMER_KEY="$TWITTER_CONSUMER_KEY" \
+  --env TWITTER_CONSUMER_SECRET="$TWITTER_CONSUMER_SECRET" \
+  --env TWITTER_ACCESS_TOKEN="$TWITTER_ACCESS_TOKEN" \
+  --env TWITTER_ACCESS_TOKEN_SECRET="$TWITTER_ACCESS_TOKEN_SECRET" \
   --volume "$PWD:/app" --rm -it koenrh/delete-tweets -d 2018-01-01 /app/tweet.js
 ```
 
