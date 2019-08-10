@@ -45,10 +45,10 @@ prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
 to `ignorespace` or `ignoreboth`).
 
 ```bash
-export TWITTER_CONSUMER_KEY="[your consumer key]"
-export TWITTER_CONSUMER_SECRET="[your consumer secret]"
-export TWITTER_ACCESS_TOKEN="[your access token]"
-export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
+export TWITTER_CONSUMER_KEY="your_consumer_key"
+export TWITTER_CONSUMER_SECRET="your_consumer_secret"
+export TWITTER_ACCESS_TOKEN="your_access_token"
+export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 ```
 
 ### Get your tweet archive
