@@ -90,7 +90,7 @@ def main():
     parser.add_argument("file", help="Path to the tweet.js file",
                         type=str)
     parser.add_argument("--spare-ids", dest="spare_ids", help="A list of tweet ids to spare",
-                        type=str, nargs="+")
+                        type=str, nargs="+", default=[])
     parser.add_argument("--spare-min-likes", dest="min_likes",
                         help="Spare tweets with more than the provided likes", type=int)
     parser.add_argument("--spare-min-retweets", dest="min_retweets",
