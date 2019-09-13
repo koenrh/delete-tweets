@@ -1,6 +1,5 @@
 import unittest
 
-from datetime import date
 from deletetweets import TweetReader
 
 
@@ -76,7 +75,7 @@ class TestDeleteTweets(unittest.TestCase):
         expected = [{"id_str": "21"}, {"id_str": "22"}]
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
-                                              spare=["22","23"]).read()):
+                                              spare=["22", "23"]).read()):
             self.assertEqual(expected[idx]["id_str"], val["id_str"])
 
     def test_tweet_reader_likes(self):
