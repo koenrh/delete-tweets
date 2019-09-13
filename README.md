@@ -82,6 +82,20 @@ Or only delete all retweets:
 python deletetweets.py -r retweet tweet.js
 ```
 
+### Spare tweets
+
+You can optionally spare tweets by passing their `id_str`, setting a minimum amount of likes or retweets:
+
+```bash
+python deletetweets.py -d 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
+```
+
+Spare tweets that have at least 10 likes, or 5 retweets:
+
+```bash
+python deletetweets.py -d 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
+```
+
 ### Docker
 
 Alternatively, you could run this script in a [Docker](https://docs.docker.com/install/)

@@ -29,11 +29,14 @@ class TweetDestroyer(object):
 
 
 class TweetReader(object):
-    def __init__(self, reader, date=None, restrict=None):
+    def __init__(self, reader, date=None, restrict=None, spare=[], min_likes=0, min_retweets=0):
         self.reader = reader
         if date is not None:
             self.date = parse(date, ignoretz=True).date()
         self.restrict = restrict
+        self.spare = spare
+        self.min_likes = min_likes
+        self.min_retweets = min_retweets
 
     def read(self):
         for row in self.reader:
@@ -50,10 +53,17 @@ class TweetReader(object):
                      row.get("in_reply_to_user_id_str") == ""):
                 continue
 
+            if row.get("id_str") in self.spare:
+                continue
+
+            if (self.min_likes > 0 and int(row.get("favorite_count")) >= self.min_likes) or \
+                    (self.min_retweets > 0 and int(row.get("retweet_count")) >= self.min_retweets):
+                continue
+
             yield row
 
 
-def delete(tweetjs_path, date, r):
+def delete(tweetjs_path, date, r, s, min_l, min_r):
     with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
         count = 0
 
@@ -64,7 +74,7 @@ def delete(tweetjs_path, date, r):
         destroyer = TweetDestroyer(api)
 
         tweets = json.loads(tweetjs_file.read()[25:])
-        for row in TweetReader(tweets, date, r).read():
+        for row in TweetReader(tweets, date, r, s, min_l, min_r).read():
             destroyer.destroy(row["id_str"])
             count += 1
 
@@ -77,8 +87,14 @@ def main():
                         help="Delete tweets until this date")
     parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"],
                         help="Restrict to either replies or retweets")
-    parser.add_argument("file", help="display a square of a given number",
+    parser.add_argument("file", help="Path to the tweet.js file",
                         type=str)
+    parser.add_argument("--spare-ids", dest="spare_ids", help="A list of tweet ids to spare",
+                        type=str, nargs="+", default=[])
+    parser.add_argument("--spare-min-likes", dest="min_likes",
+                        help="Spare tweets with more than the provided likes", type=int)
+    parser.add_argument("--spare-min-retweets", dest="min_retweets",
+                        help="Spare tweets with more than the provided retweets", type=int)
 
     args = parser.parse_args()
 
@@ -89,7 +105,7 @@ def main():
         sys.stderr.write("Twitter API credentials not set.")
         exit(1)
 
-    delete(args.file, args.date, args.restrict)
+    delete(args.file, args.date, args.restrict, args.spare_ids, args.min_likes, args.min_retweets)
 
 
 if __name__ == "__main__":

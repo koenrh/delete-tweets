@@ -68,6 +68,39 @@ class TestDeleteTweets(unittest.TestCase):
                                               date="2014-02-01").read()):
             self.assertEqual(expected[idx]["id_str"], val["id_str"])
 
+    def test_tweet_reader_spare(self):
+        tweets = [{"id_str": "21"},
+                  {"id_str": "22"},
+                  {"id_str": "23"}]
+
+        expected = [{"id_str": "21"}, {"id_str": "22"}]
+
+        for idx, val in enumerate(TweetReader(FakeReader(tweets),
+                                              spare=["22","23"]).read()):
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
+
+    def test_tweet_reader_likes(self):
+        tweets = [{"id_str": "21", "favorite_count": 0},
+                  {"id_str": "22", "favorite_count": 1},
+                  {"id_str": "23", "favorite_count": 2}]
+
+        expected = [{"id_str": "21"}, {"id_str": "22"}]
+
+        for idx, val in enumerate(TweetReader(FakeReader(tweets),
+                                              min_likes=1).read()):
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
+
+    def test_tweet_reader_retweets(self):
+        tweets = [{"id_str": "21", "retweet_count": 0},
+                  {"id_str": "22", "retweet_count": 1},
+                  {"id_str": "23", "retweet_count": 2}]
+
+        expected = [{"id_str": "21"}, {"id_str": "22"}]
+
+        for idx, val in enumerate(TweetReader(FakeReader(tweets),
+                                              min_retweets=1).read()):
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
+
 
 if __name__ == "__main__":
     unittest.main()
