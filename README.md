@@ -1,5 +1,7 @@
 # Delete tweets
 
+![](https://github.com/koenrh/delete-tweets/workflows/pythonpackage/badge.svg)
+
 This is a simple script that helps you delete tweets (or just replies or retweets)
 from your timeline. There are quite a few third-party services that allow you
 to delete tweets, but these very likely will not allow you to delete tweets beyond
