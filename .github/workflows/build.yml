@@ -1,11 +1,10 @@
 ---
-name: Python package
+name: build
 
 on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
