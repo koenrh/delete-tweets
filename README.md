@@ -1,6 +1,6 @@
 # Delete tweets
 
-[![Build Status](https://travis-ci.com/koenrh/delete-tweets.svg?branch=master)](https://travis-ci.com/koenrh/delete-tweets)
+![](https://github.com/koenrh/delete-tweets/workflows/build/badge.svg)
 
 This is a simple script that helps you delete tweets (or just replies or retweets)
 from your timeline. There are quite a few third-party services that allow you
