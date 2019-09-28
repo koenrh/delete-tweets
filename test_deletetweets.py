@@ -124,6 +124,18 @@ class TestDeleteTweets(unittest.TestCase):
 
         self.assertEqual(len(expected), len(actual))
 
+    def test_tweet_reader_min_none_arg(self):
+        tweets = [{"id_str": "21", "retweet_count": 0}]
+        expected = [{"id_str": "21"}]
+        actual = []
+
+        for idx, val in enumerate(TweetReader(FakeReader(tweets),
+                                              min_likes=None, min_retweets=None).read()):
+            self.assertEqual(expected[idx]["id_str"], val["id_str"])
+            actual.append(val)
+
+        self.assertEqual(len(expected), len(actual))
+
 
 if __name__ == "__main__":
     unittest.main()
