@@ -35,8 +35,8 @@ class TweetReader(object):
             self.date = parse(date, ignoretz=True).date()
         self.restrict = restrict
         self.spare = spare
-        self.min_likes = min_likes
-        self.min_retweets = min_retweets
+        self.min_likes = 0 if min_likes is None else min_likes
+        self.min_retweets = 0 if min_retweets is None else min_retweets
 
     def read(self):
         for row in self.reader:
