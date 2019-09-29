@@ -35,8 +35,8 @@ class TweetReader(object):
             self.date = parse(date, ignoretz=True).date()
         self.restrict = restrict
         self.spare = spare
-        self.min_likes = min_likes
-        self.min_retweets = min_retweets
+        self.min_likes = 0 if min_likes is None else min_likes
+        self.min_retweets = 0 if min_retweets is None else min_retweets
 
     def read(self):
         for row in self.reader:
@@ -92,9 +92,9 @@ def main():
     parser.add_argument("--spare-ids", dest="spare_ids", help="A list of tweet ids to spare",
                         type=str, nargs="+", default=[])
     parser.add_argument("--spare-min-likes", dest="min_likes",
-                        help="Spare tweets with more than the provided likes", type=int)
+                        help="Spare tweets with more than the provided likes", type=int, default=0)
     parser.add_argument("--spare-min-retweets", dest="min_retweets",
-                        help="Spare tweets with more than the provided retweets", type=int)
+                        help="Spare tweets with more than the provided retweets", type=int, default=0)
 
     args = parser.parse_args()
 
