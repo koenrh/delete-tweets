@@ -1,4 +1,4 @@
-# Delete tweets
+# delete-tweets
 
 ![](https://github.com/koenrh/delete-tweets/workflows/build/badge.svg)
 
@@ -67,19 +67,19 @@ export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 First, install the required dependencies.
 
 ```bash
-pip install -r requirements.txt
+pip install delete-tweets
 ```
 
 Then, for example, delete any tweet from _before_ January 1, 2018:
 
 ```bash
-python deletetweets.py -d 2018-01-01 tweet.js
+delete-tweets -d 2018-01-01 tweet.js
 ```
 
 Or only delete all retweets:
 
 ```bash
-python deletetweets.py -r retweet tweet.js
+delete-tweets -r retweet tweet.js
 ```
 
 ### Spare tweets
@@ -87,11 +87,11 @@ python deletetweets.py -r retweet tweet.js
 You can optionally spare tweets by passing their `id_str`, setting a minimum amount of likes or retweets:
 
 ```bash
-python deletetweets.py -d 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
+delete-tweets -d 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
 ```
 
 Spare tweets that have at least 10 likes, or 5 retweets:
 
 ```bash
-python deletetweets.py -d 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
+delete-tweets -d 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
 ```
