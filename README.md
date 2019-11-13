@@ -95,32 +95,3 @@ Spare tweets that have at least 10 likes, or 5 retweets:
 ```bash
 python deletetweets.py -d 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
 ```
-
-### Docker
-
-Alternatively, you could run this script in a [Docker](https://docs.docker.com/install/)
-container.
-
-First, you need to build the Docker image.
-
-```bash
-docker build -t koenrh/delete-tweets .
-```
-
-Then, run the script using the following command.
-
-:warning: Before you continue, you should be aware that most shells record user
-input (and thus secrets) into a history file. In Bash you could prevent this by
-prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
-to `ignorespace` or `ignoreboth`).
-
-```bash
-docker run --env TWITTER_CONSUMER_KEY="$TWITTER_CONSUMER_KEY" \
-  --env TWITTER_CONSUMER_SECRET="$TWITTER_CONSUMER_SECRET" \
-  --env TWITTER_ACCESS_TOKEN="$TWITTER_ACCESS_TOKEN" \
-  --env TWITTER_ACCESS_TOKEN_SECRET="$TWITTER_ACCESS_TOKEN_SECRET" \
-  --volume "$PWD:/app" --rm -it koenrh/delete-tweets -d 2018-01-01 /app/tweet.js
-```
-
-You could make this command more easily accessible by putting it an executable,
-and make sure that it is available in your `$PATH`.
