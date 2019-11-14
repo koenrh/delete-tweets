@@ -39,16 +39,16 @@ in order to create a Twitter app.
 1. Now you need to make these keys and tokens available to your shell environment.
   Assuming you are using [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)):
 
-:warning: Before you continue, you should be aware that most shells record user
-input (and thus secrets) into a history file. In Bash you could prevent this by
-prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
-to `ignorespace` or `ignoreboth`).
+On the command line:
+1. Create a new `.env` file in the root of the project.
+2. Paste in the template below.
+3. Replace the key, secrets and token with the values from Twitter.
 
 ```bash
-export TWITTER_CONSUMER_KEY="your_consumer_key"
-export TWITTER_CONSUMER_SECRET="your_consumer_secret"
-export TWITTER_ACCESS_TOKEN="your_access_token"
-export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
+TWITTER_CONSUMER_KEY="your_consumer_key"
+TWITTER_CONSUMER_SECRET="your_consumer_secret"
+TWITTER_ACCESS_TOKEN="your_access_token"
+TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 ```
 
 ### Get your tweet archive

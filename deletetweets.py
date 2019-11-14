@@ -9,10 +9,11 @@ import json
 
 import twitter
 from dateutil.parser import parse
+from dotenv import load_dotenv
+load_dotenv()
 
 __author__ = "Koen Rouwhorst"
 __version__ = "1.0.0"
-
 
 class TweetDestroyer(object):
     def __init__(self, twitter_api):
