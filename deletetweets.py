@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import io
 import os
 import sys
@@ -8,9 +6,6 @@ import json
 
 import twitter
 from dateutil.parser import parse
-
-__author__ = "Koen Rouwhorst"
-__version__ = "1.0.0"
 
 
 class TweetDestroyer(object):

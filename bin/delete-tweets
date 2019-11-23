@@ -4,6 +4,9 @@ import argparse
 import os
 import sys
 
+__author__ = "Koen Rouwhorst"
+__version__ = "1.0.0"
+
 def main():
     parser = argparse.ArgumentParser(description="Delete old tweets.")
     parser.add_argument("-d", dest="date", required=True,
@@ -18,6 +21,7 @@ def main():
                         help="Spare tweets with more than the provided likes", type=int, default=0)
     parser.add_argument("--spare-min-retweets", dest="min_retweets",
                         help="Spare tweets with more than the provided retweets", type=int, default=0)
+    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
 
     args = parser.parse_args()
 
