@@ -43,7 +43,7 @@ class TestDeleteTweets(unittest.TestCase):
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
-                                              restrict="retweet").read()):
+                                              filters=["retweets"]).read()):
             self.assertEqual(expected[idx]["id_str"], val["id_str"])
             actual.append(val)
 
@@ -59,7 +59,7 @@ class TestDeleteTweets(unittest.TestCase):
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
-                                              restrict="reply").read()):
+                                              filters=["replies"]).read()):
             self.assertEqual(expected[idx]["id_str"], val["id_str"])
             actual.append(val)
 

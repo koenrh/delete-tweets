@@ -9,10 +9,9 @@ __version__ = "1.0.0"
 
 def main():
     parser = argparse.ArgumentParser(description="Delete old tweets.")
-    parser.add_argument("-d", dest="date", required=True,
-                        help="Delete tweets until this date")
-    parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"],
-                        help="Restrict to either replies or retweets")
+    parser.add_argument("--until", dest="date", help="Delete tweets until this date")
+    parser.add_argument("--filter", action="append", dest="filters", choices=["replies", "retweets"],
+                        help="Filter replies or retweets", default=[])
     parser.add_argument("file", help="Path to the tweet.js file",
                         type=str)
     parser.add_argument("--spare-ids", dest="spare_ids", help="A list of tweet ids to spare",
@@ -23,6 +22,10 @@ def main():
                         help="Spare tweets with more than the provided retweets", type=int, default=0)
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
 
+    # legacy options
+    parser.add_argument("-d", dest="date", help=argparse.SUPPRESS)
+    parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"], help=argparse.SUPPRESS)
+
     args = parser.parse_args()
 
     if not ("TWITTER_CONSUMER_KEY" in os.environ and
@@ -32,7 +35,18 @@ def main():
         sys.stderr.write("Twitter API credentials not set.\n")
         exit(1)
 
-    deletetweets.delete(args.file, args.date, args.restrict, args.spare_ids, args.min_likes, args.min_retweets)
+    filters = []
+
+    if args.restrict == "reply":
+        filters.append("replies")
+    elif args.restrict == "retweet":
+        filters.append("retweets")
+
+    for f in args.filters:
+        if f not in filters:
+            filters.append(f)
+
+    deletetweets.delete(args.file, args.date, filters, args.spare_ids, args.min_likes, args.min_retweets)
 
 
 if __name__ == "__main__":
