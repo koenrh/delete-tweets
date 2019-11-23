@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-
-import argparse
 import io
 import os
 import sys
@@ -9,9 +6,6 @@ import json
 
 import twitter
 from dateutil.parser import parse
-
-__author__ = "Koen Rouwhorst"
-__version__ = "1.0.0"
 
 
 class TweetDestroyer(object):
@@ -80,33 +74,4 @@ def delete(tweetjs_path, date, r, s, min_l, min_r):
 
         print("Number of deleted tweets: %s\n" % count)
 
-
-def main():
-    parser = argparse.ArgumentParser(description="Delete old tweets.")
-    parser.add_argument("-d", dest="date", required=True,
-                        help="Delete tweets until this date")
-    parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"],
-                        help="Restrict to either replies or retweets")
-    parser.add_argument("file", help="Path to the tweet.js file",
-                        type=str)
-    parser.add_argument("--spare-ids", dest="spare_ids", help="A list of tweet ids to spare",
-                        type=str, nargs="+", default=[])
-    parser.add_argument("--spare-min-likes", dest="min_likes",
-                        help="Spare tweets with more than the provided likes", type=int, default=0)
-    parser.add_argument("--spare-min-retweets", dest="min_retweets",
-                        help="Spare tweets with more than the provided retweets", type=int, default=0)
-
-    args = parser.parse_args()
-
-    if not ("TWITTER_CONSUMER_KEY" in os.environ and
-            "TWITTER_CONSUMER_SECRET" in os.environ and
-            "TWITTER_ACCESS_TOKEN" in os.environ and
-            "TWITTER_ACCESS_TOKEN_SECRET" in os.environ):
-        sys.stderr.write("Twitter API credentials not set.")
-        exit(1)
-
-    delete(args.file, args.date, args.restrict, args.spare_ids, args.min_likes, args.min_retweets)
-
-
-if __name__ == "__main__":
-    main()
+    sys.exit()
