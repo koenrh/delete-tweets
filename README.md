@@ -62,15 +62,17 @@ export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 
 ## Getting started
 
-### Local
+### Installation
 
-First, install the required dependencies.
+Install the tool using `pip`.
 
 ```bash
 pip install delete-tweets
 ```
 
-Then, for example, delete any tweet from _before_ January 1, 2018:
+### Usage
+
+Delete any tweet from _before_ January 1, 2018:
 
 ```bash
 delete-tweets --until 2018-01-01 tweet.js
