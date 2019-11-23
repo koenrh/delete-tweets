@@ -9,13 +9,15 @@ from dateutil.parser import parse
 
 
 class TweetDestroyer(object):
-    def __init__(self, twitter_api):
+    def __init__(self, twitter_api, dry_run=False):
         self.twitter_api = twitter_api
+        self.dry_run = dry_run
 
     def destroy(self, tweet_id):
         try:
             print("delete tweet %s" % tweet_id)
-            self.twitter_api.DestroyStatus(tweet_id)
+            if not self.dry_run:
+                self.twitter_api.DestroyStatus(tweet_id)
             # NOTE: A poor man's solution to honor Twitter's rate limits.
             time.sleep(0.5)
         except twitter.TwitterError as err:
@@ -57,7 +59,7 @@ class TweetReader(object):
             yield row
 
 
-def delete(tweetjs_path, date, filters, s, min_l, min_r):
+def delete(tweetjs_path, date, filters, s, min_l, min_r, dry_run=False):
     with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
         count = 0
 
@@ -65,7 +67,7 @@ def delete(tweetjs_path, date, filters, s, min_l, min_r):
                           consumer_secret=os.environ["TWITTER_CONSUMER_SECRET"],
                           access_token_key=os.environ["TWITTER_ACCESS_TOKEN"],
                           access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"])
-        destroyer = TweetDestroyer(api)
+        destroyer = TweetDestroyer(api, dry_run)
 
         tweets = json.loads(tweetjs_file.read()[25:])
         for row in TweetReader(tweets, date, filters, s, min_l, min_r).read():
