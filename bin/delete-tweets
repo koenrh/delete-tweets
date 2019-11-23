@@ -9,9 +9,9 @@ __version__ = "1.0.0"
 
 def main():
     parser = argparse.ArgumentParser(description="Delete old tweets.")
-    parser.add_argument("-d", dest="date", required=True,
+    parser.add_argument("-d", "--until", dest="date", required=True,
                         help="Delete tweets until this date")
-    parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"],
+    parser.add_argument("-r", "--filter", dest="restrict", choices=["reply", "retweet"],
                         help="Restrict to either replies or retweets")
     parser.add_argument("file", help="Path to the tweet.js file",
                         type=str)

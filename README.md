@@ -73,13 +73,13 @@ pip install delete-tweets
 Then, for example, delete any tweet from _before_ January 1, 2018:
 
 ```bash
-delete-tweets -d 2018-01-01 tweet.js
+delete-tweets --until 2018-01-01 tweet.js
 ```
 
 Or only delete all retweets:
 
 ```bash
-delete-tweets -r retweet tweet.js
+delete-tweets --filter retweets tweet.js
 ```
 
 ### Spare tweets
@@ -87,11 +87,11 @@ delete-tweets -r retweet tweet.js
 You can optionally spare tweets by passing their `id_str`, setting a minimum amount of likes or retweets:
 
 ```bash
-delete-tweets -d 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
+delete-tweets --until 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
 ```
 
 Spare tweets that have at least 10 likes, or 5 retweets:
 
 ```bash
-delete-tweets -d 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
+delete-tweets --until 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
 ```
