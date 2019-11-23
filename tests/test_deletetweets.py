@@ -1,6 +1,6 @@
 import unittest
 
-from deletetweets import TweetReader, TweetDestroyer
+from deletetweets.deletetweets import TweetReader, TweetDestroyer
 
 
 class FakeTwitterApi(object):
