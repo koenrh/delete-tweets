@@ -12,8 +12,12 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/koenrh/delete-tweets",
-    packages=setuptools.find_packages(),
-    scripts=['bin/delete-tweets'],
+    packages=["deletetweets"],
+    entry_points={
+        "console_scripts": [
+            'delete-tweets = deletetweets.__main__:main',
+        ]
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 2.7",
