@@ -1,14 +1,14 @@
 import unittest
 
-from deletetweets import TweetReader
+from deletetweets import TweetReader, TweetDestroyer
 
 
 class FakeTwitterApi(object):
     def __init__(self):
-        self.tweets = []
+        self.destroyed_tweets = []
 
     def DestroyStatus(self, tweet_id):
-        self.tweets.append(tweet_id)
+        self.destroyed_tweets.append(tweet_id)
         print("Destroyed tweet %s" % tweet_id)
 
 
@@ -33,6 +33,19 @@ class FakeReader(object):
 
 
 class TestDeleteTweets(unittest.TestCase):
+    def test_tweet_destroyer_dry_run(self):
+        tweets = [{"id_str": "42", "full_text": ""},
+                  {"id_str": "43", "full_text": ""},
+                  {"id_str": "49", "full_text": ""}]
+
+        api = FakeTwitterApi()
+        destroyer = TweetDestroyer(api, dry_run=True)
+
+        for idx, val in enumerate(TweetReader(FakeReader(tweets)).read()):
+            destroyer.destroy(val["id_str"])
+
+        self.assertEqual(len(api.destroyed_tweets), 0)
+
     def test_tweet_reader_retweet(self):
         tweets = [{"id_str": "42", "full_text": "RT @github \\o/"},
                   {"id_str": "43", "full_text": ""},
