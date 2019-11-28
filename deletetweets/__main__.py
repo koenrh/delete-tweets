@@ -50,7 +50,7 @@ def main():
         if f not in filters:
             filters.append(f)
 
-    deletetweets.delete(args.file, args.date, filters, args.spare_ids, args.min_likes, args.min_retweets)
+    deletetweets.delete(args.file, args.date, filters, args.spare_ids, args.min_likes, args.min_retweets, args.dry_run)
 
 
 if __name__ == "__main__":
