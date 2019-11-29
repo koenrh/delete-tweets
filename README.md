@@ -1,6 +1,7 @@
 # delete-tweets
 
 ![](https://github.com/koenrh/delete-tweets/workflows/build/badge.svg)
+[![PyPI version](https://badge.fury.io/py/delete-tweets.svg)](https://badge.fury.io/py/delete-tweets)
 
 This is a simple script that helps you delete tweets (or just replies or retweets)
 from your timeline. There are quite a few third-party services that allow you
