@@ -5,7 +5,8 @@ import time
 import json
 
 import twitter
-from dateutil.parser import parse
+from datetime import datetime
+from dateutil import parser
 
 
 class TweetDestroyer(object):
@@ -25,10 +26,9 @@ class TweetDestroyer(object):
 
 
 class TweetReader(object):
-    def __init__(self, reader, date=None, filters=[], spare=[], min_likes=0, min_retweets=0):
+    def __init__(self, reader, until_date=None, filters=[], spare=[], min_likes=0, min_retweets=0):
         self.reader = reader
-        if date is not None:
-            self.date = parse(date, ignoretz=True).date()
+        self.until_date = datetime.now() if until_date is None else parser.parse(until_date, ignoretz=True)
         self.filters = filters
         self.spare = spare
         self.min_likes = 0 if min_likes is None else min_likes
@@ -37,10 +37,8 @@ class TweetReader(object):
     def read(self):
         for row in self.reader:
             if row.get("created_at", "") != "":
-                tweet_date = parse(row["created_at"], ignoretz=True).date()
-                if self.date != "" and \
-                        self.date is not None and \
-                        tweet_date >= self.date:
+                tweet_date = parser.parse(row["created_at"], ignoretz=True)
+                if tweet_date >= self.until_date:
                     continue
 
             if ("retweets" in self.filters and
@@ -59,7 +57,7 @@ class TweetReader(object):
             yield row
 
 
-def delete(tweetjs_path, date, filters, s, min_l, min_r, dry_run=False):
+def delete(tweetjs_path, until_date, filters, s, min_l, min_r, dry_run=False):
     with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
         count = 0
 
@@ -70,7 +68,7 @@ def delete(tweetjs_path, date, filters, s, min_l, min_r, dry_run=False):
         destroyer = TweetDestroyer(api, dry_run)
 
         tweets = json.loads(tweetjs_file.read()[25:])
-        for row in TweetReader(tweets, date, filters, s, min_l, min_r).read():
+        for row in TweetReader(tweets, until_date, filters, s, min_l, min_r).read():
             destroyer.destroy(row["id_str"])
             count += 1
 
