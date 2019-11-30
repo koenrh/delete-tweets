@@ -12,7 +12,7 @@ __version__ = "1.0.3"
 
 def main():
     parser = argparse.ArgumentParser(description="Delete old tweets.")
-    parser.add_argument("--until", dest="date", help="Delete tweets until this date")
+    parser.add_argument("--until", dest="until_date", help="Delete tweets until this date")
     parser.add_argument("--filter", action="append", dest="filters", choices=["replies", "retweets"],
                         help="Filter replies or retweets", default=[])
     parser.add_argument("file", help="Path to the tweet.js file",
@@ -27,7 +27,7 @@ def main():
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
 
     # legacy options
-    parser.add_argument("-d", dest="date", help=argparse.SUPPRESS)
+    parser.add_argument("-d", dest="until_date", help=argparse.SUPPRESS)
     parser.add_argument("-r", dest="restrict", choices=["reply", "retweet"], help=argparse.SUPPRESS)
 
     args = parser.parse_args()
@@ -50,7 +50,7 @@ def main():
         if f not in filters:
             filters.append(f)
 
-    deletetweets.delete(args.file, args.date, filters, args.spare_ids, args.min_likes, args.min_retweets, args.dry_run)
+    deletetweets.delete(args.file, args.until_date, filters, args.spare_ids, args.min_likes, args.min_retweets, args.dry_run)
 
 
 if __name__ == "__main__":
