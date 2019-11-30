@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v1.0.4
+
+- Fix crash if until date is not set [\#70](https://github.com/koenrh/delete-tweets/pull/70)
+
 ## v1.0.3
 
 - Fix `--dry-run` command-line option [\#68](https://github.com/koenrh/delete-tweets/pull/68)
