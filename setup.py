@@ -13,6 +13,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/koenrh/delete-tweets",
     packages=["deletetweets"],
+    install_requires=[
+        "python-twitter>=3.5,<4",
+        "python-dateutil>=2.8.1,<3"
+    ],
     entry_points={
         "console_scripts": [
             'delete-tweets = deletetweets.__main__:main',
