@@ -7,7 +7,7 @@ import sys
 from deletetweets import deletetweets
 
 __author__ = "Koen Rouwhorst"
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 
 
 def main():

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v1.0.5
+
+- Add missing required dependencies to setup file [\#73](https://github.com/koenrh/delete-tweets/pull/73)
+
 ## v1.0.4
 
 - Fix crash if until date is not set [\#70](https://github.com/koenrh/delete-tweets/pull/70)
