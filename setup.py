@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="delete-tweets",
-    version="1.0.5",
+    version="1.0.6",
     author="Koen Rouwhorst",
     author_email="info@koenrouwhorst.nl",
     description="Delete tweets from your Twitter timeline.",

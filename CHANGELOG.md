@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v1.0.6
+
+- Fix script to work with Twitter's new data structure [\#75](https://github.com/koenrh/delete-tweets/pull/75) ([@vlaship](https://github.com/vlaship))
+
 ## v1.0.5
 
 - Add missing required dependencies to setup file [\#73](https://github.com/koenrh/delete-tweets/pull/73)
