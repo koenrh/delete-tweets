@@ -36,22 +36,22 @@ class TweetReader(object):
 
     def read(self):
         for row in self.reader:
-            if row.get("created_at", "") != "":
-                tweet_date = parser.parse(row["created_at"], ignoretz=True)
+            if row["tweet"].get("created_at", "") != "":
+                tweet_date = parser.parse(row["tweet"]["created_at"], ignoretz=True)
                 if tweet_date >= self.until_date:
                     continue
 
             if ("retweets" in self.filters and
-                    not row.get("full_text").startswith("RT @")) or \
+                    not row["tweet"].get("full_text").startswith("RT @")) or \
                     ("replies" in self.filters and
-                     row.get("in_reply_to_user_id_str") == ""):
+                     row["tweet"].get("in_reply_to_user_id_str") == ""):
                 continue
 
-            if row.get("id_str") in self.spare:
+            if row["tweet"].get("id_str") in self.spare:
                 continue
 
-            if (self.min_likes > 0 and int(row.get("favorite_count")) >= self.min_likes) or \
-                    (self.min_retweets > 0 and int(row.get("retweet_count")) >= self.min_retweets):
+            if (self.min_likes > 0 and int(row["tweet"].get("favorite_count")) >= self.min_likes) or \
+                    (self.min_retweets > 0 and int(row["tweet"].get("retweet_count")) >= self.min_retweets):
                 continue
 
             yield row
@@ -69,7 +69,7 @@ def delete(tweetjs_path, until_date, filters, s, min_l, min_r, dry_run=False):
 
         tweets = json.loads(tweetjs_file.read()[25:])
         for row in TweetReader(tweets, until_date, filters, s, min_l, min_r).read():
-            destroyer.destroy(row["id_str"])
+            destroyer.destroy(row["tweet"]["id_str"])
             count += 1
 
         print("Number of deleted tweets: %s\n" % count)
