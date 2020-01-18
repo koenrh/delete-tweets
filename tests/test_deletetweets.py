@@ -34,9 +34,9 @@ class FakeReader(object):
 
 class TestDeleteTweets(unittest.TestCase):
     def test_tweet_destroyer_dry_run(self):
-        tweets = [{"tweet":{"id_str": "42", "full_text": ""}},
-                  {"tweet":{"id_str": "43", "full_text": ""}},
-                  {"tweet":{"id_str": "49", "full_text": ""}}]
+        tweets = [{"tweet": {"id_str": "42", "full_text": ""}},
+                  {"tweet": {"id_str": "43", "full_text": ""}},
+                  {"tweet": {"id_str": "49", "full_text": ""}}]
 
         api = FakeTwitterApi()
         destroyer = TweetDestroyer(api, dry_run=True)
@@ -47,12 +47,12 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(api.destroyed_tweets), 0)
 
     def test_tweet_reader_retweet(self):
-        tweets = [{"tweet":{"id_str": "42", "full_text": "RT @github \\o/"}},
-                  {"tweet":{"id_str": "43", "full_text": ""}},
-                  {"tweet":{"id_str": "49", "full_text": ""}},
-                  {"tweet":{"id_str": "44", "full_text": "RT @google OK, Google"}}]
+        tweets = [{"tweet": {"id_str": "42", "full_text": "RT @github \\o/"}},
+                  {"tweet": {"id_str": "43", "full_text": ""}},
+                  {"tweet": {"id_str": "49", "full_text": ""}},
+                  {"tweet": {"id_str": "44", "full_text": "RT @google OK, Google"}}]
 
-        expected = [{"tweet":{"id_str": "42"}}, {"tweet":{"id_str": "44"}}]
+        expected = [{"tweet": {"id_str": "42"}}, {"tweet": {"id_str": "44"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
@@ -63,12 +63,12 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_reply(self):
-        tweets = [{"tweet":{"id_str": "12", "in_reply_to_user_id_str": ""}},
-                  {"tweet":{"id_str": "14", "in_reply_to_user_id_str": "200"}},
-                  {"tweet":{"id_str": "16", "in_reply_to_user_id_str": ""}},
-                  {"tweet":{"id_str": "18", "in_reply_to_user_id_str": "203"}}]
+        tweets = [{"tweet": {"id_str": "12", "in_reply_to_user_id_str": ""}},
+                  {"tweet": {"id_str": "14", "in_reply_to_user_id_str": "200"}},
+                  {"tweet": {"id_str": "16", "in_reply_to_user_id_str": ""}},
+                  {"tweet": {"id_str": "18", "in_reply_to_user_id_str": "203"}}]
 
-        expected = [{"tweet":{"id_str": "14"}}, {"tweet":{"id_str": "18"}}]
+        expected = [{"tweet": {"id_str": "14"}}, {"tweet": {"id_str": "18"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
@@ -79,10 +79,10 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_date(self):
-        tweets = [{"tweet":{"id_str": "21", "created_at": "Wed March 06 20:22:06 +0000 2013"}},
-                  {"tweet":{"id_str": "22", "created_at": "Thu March 05 20:22:06 +0000 2014"}}]
+        tweets = [{"tweet": {"id_str": "21", "created_at": "Wed March 06 20:22:06 +0000 2013"}},
+                  {"tweet": {"id_str": "22", "created_at": "Thu March 05 20:22:06 +0000 2014"}}]
 
-        expected = [{"tweet":{"id_str": "21"}}]
+        expected = [{"tweet": {"id_str": "21"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
@@ -93,9 +93,9 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_none_date(self):
-        tweets = [{"tweet":{"id_str": "21", "created_at": "Wed March 06 20:22:06 +0000 2013"}}]
+        tweets = [{"tweet": {"id_str": "21", "created_at": "Wed March 06 20:22:06 +0000 2013"}}]
 
-        expected = [{"tweet":{"id_str": "21"}}]
+        expected = [{"tweet": {"id_str": "21"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets)).read()):
@@ -105,11 +105,11 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_spare(self):
-        tweets = [{"tweet":{"id_str": "21"}},
-                  {"tweet":{"id_str": "22"}},
-                  {"tweet":{"id_str": "23"}}]
+        tweets = [{"tweet": {"id_str": "21"}},
+                  {"tweet": {"id_str": "22"}},
+                  {"tweet": {"id_str": "23"}}]
 
-        expected = [{"tweet":{"id_str": "21"}}]
+        expected = [{"tweet": {"id_str": "21"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
@@ -120,11 +120,11 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_likes(self):
-        tweets = [{"tweet":{"id_str": "21", "favorite_count": 0}},
-                  {"tweet":{"id_str": "22", "favorite_count": 1}},
-                  {"tweet":{"id_str": "23", "favorite_count": 2}}]
+        tweets = [{"tweet": {"id_str": "21", "favorite_count": 0}},
+                  {"tweet": {"id_str": "22", "favorite_count": 1}},
+                  {"tweet": {"id_str": "23", "favorite_count": 2}}]
 
-        expected = [{"tweet":{"id_str": "21"}}]
+        expected = [{"tweet": {"id_str": "21"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
@@ -135,11 +135,11 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_retweets(self):
-        tweets = [{"tweet":{"id_str": "21", "retweet_count": 0}},
-                  {"tweet":{"id_str": "22", "retweet_count": 1}},
-                  {"tweet":{"id_str": "23", "retweet_count": 2}}]
+        tweets = [{"tweet": {"id_str": "21", "retweet_count": 0}},
+                  {"tweet": {"id_str": "22", "retweet_count": 1}},
+                  {"tweet": {"id_str": "23", "retweet_count": 2}}]
 
-        expected = [{"tweet":{"id_str": "21"}}]
+        expected = [{"tweet": {"id_str": "21"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
@@ -150,8 +150,8 @@ class TestDeleteTweets(unittest.TestCase):
         self.assertEqual(len(expected), len(actual))
 
     def test_tweet_reader_min_none_arg(self):
-        tweets = [{"tweet":{"id_str": "21", "retweet_count": 0}}]
-        expected = [{"tweet":{"id_str": "21"}}]
+        tweets = [{"tweet": {"id_str": "21", "retweet_count": 0}}]
+        expected = [{"tweet": {"id_str": "21"}}]
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
