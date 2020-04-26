@@ -12,7 +12,7 @@ __version__ = "1.0.6"
 
 def main():
     parser = argparse.ArgumentParser(description="Delete old tweets.")
-    parser.add_argument("--from", dest="from_date", help="Delete tweets from this date")
+    parser.add_argument("--since", dest="since_date", help="Delete tweets since this date")
     parser.add_argument("--until", dest="until_date", help="Delete tweets until this date")
     parser.add_argument("--filter", action="append", dest="filters", choices=["replies", "retweets"],
                         help="Filter replies or retweets", default=[])
@@ -51,7 +51,7 @@ def main():
         if f not in filters:
             filters.append(f)
 
-    deletetweets.delete(args.file, args.from_date, args.until_date, filters, args.spare_ids,
+    deletetweets.delete(args.file, args.since_date, args.until_date, filters, args.spare_ids,
                         args.min_likes, args.min_retweets, args.dry_run)
 
 

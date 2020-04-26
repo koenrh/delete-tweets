@@ -92,7 +92,7 @@ class TestDeleteTweets(unittest.TestCase):
 
         self.assertEqual(len(expected), len(actual))
 
-    def test_tweet_reader_from_date(self):
+    def test_tweet_reader_since_date(self):
         tweets = [{"tweet": {"id_str": "23", "created_at": "Thu Apr 23 13:10:23 +0000 2020"}},
                   {"tweet": {"id_str": "24", "created_at": "Sat Apr 25 14:34:33 +0000 2020"}}]
 
@@ -100,7 +100,7 @@ class TestDeleteTweets(unittest.TestCase):
         actual = []
 
         for idx, val in enumerate(TweetReader(FakeReader(tweets),
-                                              from_date="2020-04-24").read()):
+                                              since_date="2020-04-24").read()):
             self.assertEqual(expected[idx]["tweet"]["id_str"], val["tweet"]["id_str"])
             actual.append(val)
 
