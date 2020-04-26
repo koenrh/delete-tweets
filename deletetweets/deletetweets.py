@@ -28,7 +28,7 @@ class TweetDestroyer(object):
 class TweetReader(object):
     def __init__(self, reader, from_date=None, until_date=None, filters=[], spare=[], min_likes=0, min_retweets=0):
         self.reader = reader
-        self.from_date = datetime.min() if until_date is None else parser.parse(until_date, ignoretz=True)
+        self.from_date = datetime.min if from_date is None else parser.parse(from_date, ignoretz=True)
         self.until_date = datetime.now() if until_date is None else parser.parse(until_date, ignoretz=True)
         self.filters = filters
         self.spare = spare
