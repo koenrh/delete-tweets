@@ -4,6 +4,7 @@
 
 - Add `--since` option to delete tweets since a specific date [\#80](https://github.com/koenrh/delete-tweets/pull/80)
     ([@cyb3rsalih](https://github.com/cyb3rsalih))
+- Remove support for Python 2.7 [\#66](https://github.com/koenrh/delete-tweets/pull/66)
 
 ## v1.0.6
 

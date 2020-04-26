@@ -65,10 +65,10 @@ export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 
 ### Installation
 
-Install the tool using `pip`.
+Install the tool using [`pip`](https://pip.pypa.io/).
 
 ```bash
-pip install delete-tweets
+python3 -m pip install delete-tweets
 ```
 
 ### Usage
