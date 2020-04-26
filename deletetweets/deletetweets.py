@@ -26,7 +26,7 @@ class TweetDestroyer(object):
 
 
 class TweetReader(object):
-    def __init__(self, reader,from_date=None until_date=None, filters=[], spare=[], min_likes=0, min_retweets=0):
+    def __init__(self, reader, from_date=None, until_date=None, filters=[], spare=[], min_likes=0, min_retweets=0):
         self.reader = reader
         self.from_date = datetime.min() if until_date is None else parser.parse(until_date, ignoretz=True)
         self.until_date = datetime.now() if until_date is None else parser.parse(until_date, ignoretz=True)
@@ -58,7 +58,7 @@ class TweetReader(object):
             yield row
 
 
-def delete(tweetjs_path,from_date,until_date, filters, s, min_l, min_r, dry_run=False):
+def delete(tweetjs_path, from_date, until_date, filters, s, min_l, min_r, dry_run=False):
     with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
         count = 0
 
@@ -69,7 +69,7 @@ def delete(tweetjs_path,from_date,until_date, filters, s, min_l, min_r, dry_run=
         destroyer = TweetDestroyer(api, dry_run)
 
         tweets = json.loads(tweetjs_file.read()[25:])
-        for row in TweetReader(tweets,from_date,until_date, filters, s, min_l, min_r).read():
+        for row in TweetReader(tweets, from_date, until_date, filters, s, min_l, min_r).read():
             destroyer.destroy(row["tweet"]["id_str"])
             count += 1
 
