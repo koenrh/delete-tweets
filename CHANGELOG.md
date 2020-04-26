@@ -2,9 +2,13 @@
 
 ## Unreleased
 
+- Add `--since` option to delete tweets since a specific date [\#80](https://github.com/koenrh/delete-tweets/pull/80)
+    ([@cyb3rsalih](https://github.com/cyb3rsalih))
+
 ## v1.0.6
 
-- Fix script to work with Twitter's new data structure [\#75](https://github.com/koenrh/delete-tweets/pull/75) ([@vlaship](https://github.com/vlaship))
+- Fix script to work with Twitter's new data structure [\#75](https://github.com/koenrh/delete-tweets/pull/75)
+    ([@vlaship](https://github.com/vlaship))
 
 ## v1.0.5
 
