@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## v2.0.0
+
+- Remove [`time.sleep`](https://docs.python.org/3/library/time.html#time.sleep)
+    as a means of avoiding Twitter's rate-limiting in favour of [python-twitter](https://python-twitter.readthedocs.io/en/latest/rate_limits.html)'s
+    `sleep_on_rate_limit` ([@0trenixjetix](https://github.com/0trenixjetix))
 - Add `--since` option to delete tweets since a specific date [\#80](https://github.com/koenrh/delete-tweets/pull/80)
     ([@cyb3rsalih](https://github.com/cyb3rsalih))
 - Remove support for Python 2.7 [\#66](https://github.com/koenrh/delete-tweets/pull/66)
