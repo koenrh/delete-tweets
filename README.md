@@ -60,6 +60,7 @@ export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 1. Click 'Request data', and wait for the email to arrive
 1. Follow the link in the email to download your Tweet data
 1. Unpack the archive
+1. Navigate into `<unpacked-archive>/data`
 
 ## Getting started
 
