@@ -64,6 +64,7 @@ class TestDeleteTweets(unittest.TestCase):
 
     def test_tweet_reader_reply(self):
         tweets = [{"tweet": {"id_str": "12", "in_reply_to_user_id_str": ""}},
+                  {"tweet": {"id_str": "13"}},  # in_reply_to_user_id_str is missing in latest archive.
                   {"tweet": {"id_str": "14", "in_reply_to_user_id_str": "200"}},
                   {"tweet": {"id_str": "16", "in_reply_to_user_id_str": ""}},
                   {"tweet": {"id_str": "18", "in_reply_to_user_id_str": "203"}}]

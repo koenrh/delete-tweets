@@ -39,10 +39,10 @@ class TweetReader(object):
                 if tweet_date >= self.until_date or tweet_date <= self.since_date:
                     continue
 
-            if ("retweets" in self.filters and
-                    not row["tweet"].get("full_text").startswith("RT @")) or \
-                    ("replies" in self.filters and
-                     row["tweet"].get("in_reply_to_user_id_str") == ""):
+            if "retweets" in self.filters and not row["tweet"].get("full_text").startswith("RT @"):
+                continue
+
+            if "replies" in self.filters and row["tweet"].get("in_reply_to_user_id_str", "") == "":
                 continue
 
             if row["tweet"].get("id_str") in self.spare:
