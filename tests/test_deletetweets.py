@@ -79,6 +79,22 @@ class TestDeleteTweets(unittest.TestCase):
 
         self.assertEqual(len(expected), len(actual))
 
+    def test_tweet_reader_reply_spare_user(self):
+        tweets = [{"tweet": {"id_str": "12", "in_reply_to_user_id_str": ""}},
+                  {"tweet": {"id_str": "14", "in_reply_to_user_id_str": "200"}},
+                  {"tweet": {"id_str": "16", "in_reply_to_user_id_str": ""}},
+                  {"tweet": {"id_str": "18", "in_reply_to_user_id_str": "203"}}]
+
+        expected = [{"tweet": {"id_str": "14"}}]
+        actual = []
+
+        for idx, val in enumerate(TweetReader(FakeReader(tweets),
+                                              filters=["replies"], spare_user=["203", "204"]).read()):
+            self.assertEqual(expected[idx]["tweet"]["id_str"], val["tweet"]["id_str"])
+            actual.append(val)
+
+        self.assertEqual(len(expected), len(actual))
+
     def test_tweet_reader_until_date(self):
         tweets = [{"tweet": {"id_str": "21", "created_at": "Wed March 06 20:22:06 +0000 2013"}},
                   {"tweet": {"id_str": "22", "created_at": "Thu March 05 20:22:06 +0000 2014"}}]
