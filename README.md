@@ -1,6 +1,7 @@
-# Delete tweets
+# delete-tweets
 
-[![Build Status](https://travis-ci.com/koenrh/delete-tweets.svg?branch=master)](https://travis-ci.com/koenrh/delete-tweets)
+![](https://github.com/koenrh/delete-tweets/workflows/build/badge.svg)
+[![PyPI version](https://badge.fury.io/py/delete-tweets.svg)](https://badge.fury.io/py/delete-tweets)
 
 This is a simple script that helps you delete tweets (or just replies or retweets)
 from your timeline. There are quite a few third-party services that allow you
@@ -45,68 +46,56 @@ prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
 to `ignorespace` or `ignoreboth`).
 
 ```bash
-export TWITTER_CONSUMER_KEY="[your consumer key]"
-export TWITTER_CONSUMER_SECRET="[your consumer secret]"
-export TWITTER_ACCESS_TOKEN="[your access token]"
-export TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
+export TWITTER_CONSUMER_KEY="your_consumer_key"
+export TWITTER_CONSUMER_SECRET="your_consumer_secret"
+export TWITTER_ACCESS_TOKEN="your_access_token"
+export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 ```
 
 ### Get your tweet archive
 
-1. Open your [Twitter account page](https://twitter.com/settings/account).
-1. Scroll to the bottom of the page, click 'Request your archive' (not 'Your Twitter
-  data' in the left sidebar!), and wait for the email to arrive.
-1. Follow the link in the email to download your Tweet archive.
-1. Unpack the archive, and move `tweets.csv` to the same directory as this script.
+1. Open the [Your Twitter data page](https://twitter.com/settings/your_twitter_data)
+1. Scroll to the 'Download your Twitter data' section at the bottom of the page
+1. Re-enter your password
+1. Click 'Request data', and wait for the email to arrive
+1. Follow the link in the email to download your Tweet data
+1. Unpack the archive
 
 ## Getting started
 
-### Local
+### Installation
 
-First, install the required dependencies.
+Install the tool using [`pip`](https://pip.pypa.io/).
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install delete-tweets
 ```
 
-Then, for example, delete any tweet from _before_ January 1, 2018:
+### Usage
+
+Delete any tweet from _before_ January 1, 2018:
 
 ```bash
-python deletetweets.py -d 2018-01-01 tweets.csv
+delete-tweets --until 2018-01-01 tweet.js
 ```
 
 Or only delete all retweets:
 
 ```bash
-python deletetweets.py -r retweet tweets.csv
+delete-tweets --filter retweets tweet.js
 ```
 
-### Docker
+### Spare tweets
 
-Alternatively, you could run this script in a [Docker](https://docs.docker.com/install/)
-container.
-
-First, you need to build the Docker image.
+You can optionally spare tweets by passing their `id_str`, setting a minimum
+amount of likes or retweets:
 
 ```bash
-docker build -t koenrh/delete-tweets .
+delete-tweets --until 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
 ```
 
-Then, run the script using the following command.
-
-:warning: Before you continue, you should be aware that most shells record user
-input (and thus secrets) into a history file. In Bash you could prevent this by
-prepending your command with a _single space_ (requires `$HISTCONTROL` to be set
-to `ignorespace` or `ignoreboth`).
+Spare tweets that have at least 10 likes, or 5 retweets:
 
 ```bash
-docker run --env TWITTER_CONSUMER_KEY="[your consumer key]" \
-  --env TWITTER_CONSUMER_SECRET="[your consumer secret]" \
-  --env TWITTER_ACCESS_TOKEN="[your access token]" \
-  --env TWITTER_ACCESS_TOKEN_SECRET="[your access token secret]"
-  --rm -it koenrh/delete-tweets \
-  -v $E:PWD":/app" -d 2018-01-01 /app/tweets.csv
+delete-tweets --until 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
 ```
-
-You could make this command more easily accessible by putting it an executable,
-and make sure that it is available in your `$PATH`.
