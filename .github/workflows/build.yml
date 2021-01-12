@@ -21,15 +21,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Lint with flake8
         run: |
-          python3 -m pip install flake8
-          python3 -m flake8 . --count --max-line-length=125 --statistics
+          python -m pip install flake8
+          python -m flake8 . --count --max-line-length=125 --statistics
 
       - name: Test with pytest
         run: |
-          python3 -m pip install pytest
-          python3 -m pytest --verbose
+          python -m pip install pytest
+          python -m pytest --verbose
