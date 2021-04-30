@@ -7,7 +7,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+<<<<<<< HEAD
       max-parallel: 3
+=======
+>>>>>>> f0d186bdfcc27f5ae185a8da3fe6c84948bee4c2
       matrix:
         python-version: [3.6, 3.7, 3.8]
 
