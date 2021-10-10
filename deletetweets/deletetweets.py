@@ -22,6 +22,20 @@ class TweetDestroyer(object):
             print("Exception: %s\n" % err.message)
 
 
+class LikeDestroyer(object):
+    def __init__(self, twitter_api, dry_run=False):
+        self.twitter_api = twitter_api
+        self.dry_run = dry_run
+
+    def destroy(self, tweet_id):
+        try:
+            print("unlike tweet %s" % tweet_id)
+            if not self.dry_run:
+                self.twitter_api.DestroyFavorite(status_id=tweet_id)
+        except twitter.TwitterError as err:
+            print("Exception: %s\n" % err.message)
+
+
 class TweetReader(object):
     def __init__(self, reader, since_date=None, until_date=None, filters=[], spare=[], min_likes=0, min_retweets=0):
         self.reader = reader
@@ -55,22 +69,51 @@ class TweetReader(object):
             yield row
 
 
-def delete(tweetjs_path, since_date, until_date, filters, s, min_l, min_r, dry_run=False):
-    with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
-        count = 0
+class LikeReader(object):
+    def __init__(self, reader):
+        self.reader = reader
 
-        api = twitter.Api(consumer_key=os.environ["TWITTER_CONSUMER_KEY"],
-                          consumer_secret=os.environ["TWITTER_CONSUMER_SECRET"],
-                          access_token_key=os.environ["TWITTER_ACCESS_TOKEN"],
-                          access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"],
-                          sleep_on_rate_limit=True)
-        destroyer = TweetDestroyer(api, dry_run)
+    def read(self):
+        for row in self.reader:
+            yield row
 
-        tweets = json.loads(tweetjs_file.read()[25:])
-        for row in TweetReader(tweets, since_date, until_date, filters, s, min_l, min_r).read():
-            destroyer.destroy(row["tweet"]["id_str"])
-            count += 1
 
-        print("Number of deleted tweets: %s\n" % count)
+def delete(tweetjs_path, since_date, until_date, filters, s, min_l, min_r, unlike, likejs_path, dry_run=False):
+    if not unlike:
+        with io.open(tweetjs_path, mode="r", encoding="utf-8") as tweetjs_file:
+            count = 0
 
-    sys.exit()
+            api = twitter.Api(consumer_key=os.environ["TWITTER_CONSUMER_KEY"],
+                            consumer_secret=os.environ["TWITTER_CONSUMER_SECRET"],
+                            access_token_key=os.environ["TWITTER_ACCESS_TOKEN"],
+                            access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"],
+                            sleep_on_rate_limit=True)
+            destroyer = TweetDestroyer(api, dry_run)
+
+            tweets = json.loads(tweetjs_file.read()[25:])
+            for row in TweetReader(tweets, since_date, until_date, filters, s, min_l, min_r).read():
+                destroyer.destroy(row["tweet"]["id_str"])
+                count += 1
+
+            print("Number of deleted tweets: %s\n" % count)
+
+        sys.exit()
+    else:
+        with io.open(likejs_path, mode="r", encoding="utf-8") as likejs_file:
+            count = 0
+
+            api = twitter.Api(consumer_key=os.environ["TWITTER_CONSUMER_KEY"],
+                            consumer_secret=os.environ["TWITTER_CONSUMER_SECRET"],
+                            access_token_key=os.environ["TWITTER_ACCESS_TOKEN"],
+                            access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"],
+                            sleep_on_rate_limit=True)
+            destroyer = LikeDestroyer(api, dry_run)
+
+            tweets = json.loads(likejs_file.read()[24:])
+            for row in LikeReader(tweets).read():
+                destroyer.destroy(row["like"]["tweetId"])
+                count += 1
+
+            print("Number of unliked tweets: %s\n" % count)
+
+        sys.exit()
