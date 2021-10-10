@@ -26,6 +26,9 @@ def main():
                         help="Spare tweets with more than the provided retweets", type=int, default=0)
     parser.add_argument("--dry-run", dest="dry_run", action="store_true", default=False)
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
+    parser.add_argument("--unlike", dest="unlike", help="Unlike all tweets", action="store_true", default=False)
+    parser.add_argument("like_file", help="Path to the like.js file",
+                        type=str)
 
     # legacy options
     parser.add_argument("-d", dest="until_date", help=argparse.SUPPRESS)
@@ -52,7 +55,7 @@ def main():
             filters.append(f)
 
     deletetweets.delete(args.file, args.since_date, args.until_date, filters, args.spare_ids,
-                        args.min_likes, args.min_retweets, args.dry_run)
+                        args.min_likes, args.min_retweets, args.unlike, args.like_file, args.dry_run)
 
 
 if __name__ == "__main__":
