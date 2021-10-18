@@ -29,11 +29,18 @@ class LikeDestroyer(object):
 
     def destroy(self, tweet_id):
         try:
-            print("unlike tweet %s" % tweet_id)
+            print("Unlike tweet %s" % tweet_id)
             if not self.dry_run:
                 self.twitter_api.DestroyFavorite(status_id=tweet_id)
         except twitter.TwitterError as err:
             print("Exception: %s\n" % err.message)
+            try:
+                print("Like tweet %s" % tweet_id)
+                self.twitter_api.CreateFavorite(status_id=tweet_id)
+                print("Unlike tweet %s" % tweet_id)
+                self.twitter_api.DestroyFavorite(status_id=tweet_id)
+            except twitter.TwitterError as err:
+                print("Exception: %s\n" % err.message)
 
 
 class TweetReader(object):
