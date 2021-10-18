@@ -4,7 +4,7 @@ import argparse
 import os
 import sys
 
-from deletetweets import deletetweets
+import deletetweets
 
 __author__ = "Koen Rouwhorst"
 __version__ = "1.0.6"
@@ -27,8 +27,8 @@ def main():
     parser.add_argument("--dry-run", dest="dry_run", action="store_true", default=False)
     parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
     parser.add_argument("--unlike", dest="unlike", help="Unlike all tweets", action="store_true", default=False)
-    parser.add_argument("like_file", help="Path to the like.js file",
-                        type=str)
+    parser.add_argument("--like_file", dest="like_file", help="Path to the like.js file",
+                        type=str, default=None)
 
     # legacy options
     parser.add_argument("-d", dest="until_date", help=argparse.SUPPRESS)
