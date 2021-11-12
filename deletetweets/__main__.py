@@ -20,6 +20,9 @@ def main():
                         type=str)
     parser.add_argument("--spare-ids", dest="spare_ids", help="A list of tweet ids to spare",
                         type=str, nargs="+", default=[])
+    parser.add_argument("--spare-user", dest="spare_user", help="Your user id; value of accountId field in account.js\
+                         If you filter replies to delete and this field is empty, your replies to your own\
+                         tweets(ie threads) also will be deleted", type=str, nargs=1, default=[])
     parser.add_argument("--spare-min-likes", dest="min_likes",
                         help="Spare tweets with more than the provided likes", type=int, default=0)
     parser.add_argument("--spare-min-retweets", dest="min_retweets",
@@ -52,7 +55,7 @@ def main():
             filters.append(f)
 
     deletetweets.delete(args.file, args.since_date, args.until_date, filters, args.spare_ids,
-                        args.min_likes, args.min_retweets, args.dry_run)
+                        args.min_likes, args.min_retweets, args.spare_user, args.dry_run)
 
 
 if __name__ == "__main__":
