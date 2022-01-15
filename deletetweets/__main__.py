@@ -34,6 +34,14 @@ def main():
 
     args = parser.parse_args()
 
+    if args.unlike:
+        if args.since_date is not None or args.until_date is not None or \
+            len(args.filters) > 0 or len(args.spare_ids) > 0 or \
+                args.min_likes > 0 or args.min_retweets > 0 \
+                    or args.restrict is not None:
+            sys.stderr.write("--unlike is incompatible with filtering and sparing.\n")
+            exit(1)
+
     if not ("TWITTER_CONSUMER_KEY" in os.environ and
             "TWITTER_CONSUMER_SECRET" in os.environ and
             "TWITTER_ACCESS_TOKEN" in os.environ and
