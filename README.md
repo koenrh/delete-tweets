@@ -32,6 +32,18 @@ in order to create a Twitter app.
   available as long as your Twitter Developer account is pending review).
 1. Set 'Access permissions' of your app to *Read and write*.
 
+### Apply for Elevated Access
+
+Recently Twitter limited the access to the API. To gain the necessary access,
+you'll have to [ask for Elevated Access](https://developer.twitter.com/en/portal/products/elevated)
+to use the script, otherwise you might see on your terminal replies such as:
+
+```
+delete tweet XXXXXXXXXXXXXXXXXX
+Exception: [{'message': 'You currently have Essential access which includes access to Twitter API v2 endpoints only. If you need access to this endpoint, you’ll need to apply for Elevated access via the Developer Portal. You can learn more
+here: https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api#v2-access-leve', 'code': 453}]
+```
+
 ### Configure your environment
 
 1. Open your Twitter Developer's [apps](https://developer.twitter.com/en/apps).
