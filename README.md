@@ -30,7 +30,21 @@ in order to create a Twitter app.
 
 1. [Create a new Twitter app](https://developer.twitter.com/en/apps/create) (not
   available as long as your Twitter Developer account is pending review).
-1. Set 'Access permissions' of your app to *Read and write*.
+1. Set 'Access permissions' of your app to *Read and write* (to do this, navigate to your app's settings tab, and enable Oauth 1.0 settings then check "Read and Write" in the "App Permissions" section. Then go to your app's "Keys and tokens" tab and regenerate your tokens for this change to take effect).
+
+### Apply for Elevated Access
+
+Recently Twitter limited the access to the API. To gain the necessary access,
+you'll have to [ask for Elevated Access](https://developer.twitter.com/en/portal/products/elevated) - which might take a day or more -
+to use the script, otherwise you might see on your terminal replies such as:
+
+```
+delete tweet XXXXXXXXXXXXXXXXXX
+Exception: [{'message': 'You currently have Essential access which includes access to Twitter API v2 endpoints only. If you need access to this endpoint, you’ll need to apply for Elevated access via the Developer Portal. You can learn more
+here: https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api#v2-access-leve', 'code': 453}]
+```
+
+![](images/oauth.png)
 
 ### Configure your environment
 
@@ -99,3 +113,7 @@ Spare tweets that have at least 10 likes, or 5 retweets:
 ```bash
 delete-tweets --until 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
 ```
+
+### What you should be seeing if everything is working as intended
+
+If everything is working as expected, the script starts to run and you should see multiple lines written "delete tweet <number of the tweet>".
