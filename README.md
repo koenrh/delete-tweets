@@ -8,10 +8,11 @@ from your timeline. There are quite a few third-party services that allow you
 to delete tweets, but these very likely will not allow you to delete tweets beyond
 the infamous [3,200 tweet limit](https://web.archive.org/web/20131019125213/https://dev.twitter.com/discussions/276).
 
+This is a fork of the original that adds the printing of the tweets contents, likes, and RTs. This helps with identifying content on a dry-run, or as it is being deleted.
+
 ## Prerequisites
 
-Unfortunately, as of late 2018, you are required to have a Twitter Developer account
-in order to create a Twitter app.
+You are required to have a Twitter Developer account in order to create a Twitter app.
 
 ### Apply for a Twitter Developer account
 
@@ -65,37 +66,43 @@ export TWITTER_ACCESS_TOKEN_SECRET="your_access_token_secret"
 
 ### Installation
 
-Install the tool using [`pip`](https://pip.pypa.io/).
+Clone the repo then install it by:
 
-```bash
-python3 -m pip install delete-tweets
 ```
+python3 setup.py install
+```
+
+
 
 ### Usage
 
 Delete any tweet from _before_ January 1, 2018:
 
-```bash
+```
 delete-tweets --until 2018-01-01 tweet.js
 ```
 
 Or only delete all retweets:
 
-```bash
+```
 delete-tweets --filter retweets tweet.js
 ```
+
+How I run it to delete old tweets with no engagement. This removes tweets that have no likes, no RTs, and are not replies to anyone else. Run with --dry-run first.
+
+```delete-tweets --spare-min-likes 1 --spare-min-retweets 1 -r reply tweets.js```
 
 ### Spare tweets
 
 You can optionally spare tweets by passing their `id_str`, setting a minimum
 amount of likes or retweets:
 
-```bash
+```
 delete-tweets --until 2018-01-01 tweet.js --spare-ids 21235434 23498723 23498723
 ```
 
 Spare tweets that have at least 10 likes, or 5 retweets:
 
-```bash
+```
 delete-tweets --until 2018-01-01 tweet.js --spare-min-likes 10 --spare-min-retweets 5
 ```
