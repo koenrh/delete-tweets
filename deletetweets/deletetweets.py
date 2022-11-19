@@ -15,11 +15,14 @@ class TweetDestroyer(object):
 
     def destroy(self, tweet_id):
         try:
-            print("delete tweet %s" % tweet_id)
             if not self.dry_run:
                 self.twitter_api.DestroyStatus(tweet_id)
         except twitter.TwitterError as err:
-            print("Exception: %s\n" % err.message)
+            e = err.args[0]
+            if ('code' in e[0].keys()) and (e[0]['code'] in [34, 144]):
+                print('[*] Tweet does not exist')
+            else:
+                print("Unknown Exception: %s\n" % err.message)
 
 
 class TweetReader(object):
@@ -68,7 +71,9 @@ def delete(tweetjs_path, since_date, until_date, filters, s, min_l, min_r, dry_r
 
         tweets = json.loads(tweetjs_file.read()[25:])
         for row in TweetReader(tweets, since_date, until_date, filters, s, min_l, min_r).read():
+            print('Delete [{} - (L:{} RT:{})] - {}'.format(row["tweet"]["id_str"], row["tweet"]["favorite_count"], row["tweet"]["retweet_count"], row["tweet"]["full_text"]))
             destroyer.destroy(row["tweet"]["id_str"])
+                
             count += 1
 
         print("Number of deleted tweets: %s\n" % count)
